@@ -1,10 +1,24 @@
+
 class Solution:
     def thirdMax(self, nums):
         """
         :type nums: List[int]
         :rtype: int
+        
+        输入：一个整数列表nums。
+        输出：如果三个不同的最大值存在，则返回第三个最大的值；否则，返回列表中的最大值。
+        中文注释：
+        - 首先去重并存储在一个新的列表s中
+        - 如果列表s的最后一个元素小于第一个元素，说明全是负数或特殊情况，此时过滤掉所有非正数
+        - 判断列表长度是否大于等于3，如果是返回倒数第三个元素（即第三大值）
+        - 否则返回列表中的最大值（即最后一个元素）
         """
-        s=list(set(nums))
-        if s[-1]<s[0]: s=[item for item in s if item>=0]
-        if len(s)>=3: return s[-3]
-        else: return s[-1] 
+        s = list(set(nums))  # 去重并存储在s中
+        
+        if s[-1] < s[0]:  # 如果最后一个元素小于第一个元素，说明全是负数或特殊情况
+            s = [item for item in s if item >= 0]  # 过滤掉所有非正数
+        
+        if len(s) >= 3:  # 判断列表长度是否大于等于3
+            return s[-3]  # 返回倒数第三个元素（即第三大值）
+        else:
+            return s[-1]  # 返回列表中的最大值（即最后一个元素）

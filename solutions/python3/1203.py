@@ -1,5 +1,7 @@
+
 class Solution:
     def sortItems(self, n: int, m: int, group: List[int], beforeItems: List[List[int]]) -> List[int]:
+        # 定义拓扑排序函数
         def topo_sort(points, pre, suc):
             order = []
             sources = [p for p in points if not pre[p]]
@@ -12,14 +14,15 @@ class Solution:
                         sources.append(u)
             return order if len(order) == len(points) else []
         
-        # find the group of each item
+        # 找到每个物品所属的组
         group2item = collections.defaultdict(set)
         for i in range(n):
             if group[i] == -1:
                 group[i] = m
                 m += 1
             group2item[group[i]].add(i)
-        # find the relationships between the groups and each items in the same group
+
+        # 找到组与组之间以及同一组内物品之间的关系
         t_pre, t_suc = collections.defaultdict(set), collections.defaultdict(set)
         g_pre, g_suc = collections.defaultdict(set), collections.defaultdict(set)
         for i in range(n):
@@ -30,9 +33,11 @@ class Solution:
                 else:
                     g_pre[group[i]].add(group[j])
                     g_suc[group[j]].add(group[i])
-        # topological sort the groups
+
+        # 对组进行拓扑排序
         groups_order = topo_sort([i for i in group2item], g_pre, g_suc)
-        # topological sort the items in each group
+
+        # 对每个组内的物品进行拓扑排序
         t_order = []
         for i in groups_order:
             items = group2item[i]
@@ -40,4 +45,6 @@ class Solution:
             if len(i_order) != len(items):
                 return []
             t_order += i_order
+
         return t_order if len(t_order) == n else []
+

@@ -1,49 +1,41 @@
-# http://www.algorithmist.com/index.php/Monotone_Chain_Convex_Hull.py
-
 
 class Solution(object):
 
     def outerTrees(self, points):
-        """Computes the convex hull of a set of 2D points.
-
-        Input: an iterable sequence of (x, y) pairs representing the points.
-        Output: a list of vertices of the convex hull in counter-clockwise order,
-          starting from the vertex with the lexicographically smallest coordinates.
-        Implements Andrew's monotone chain algorithm. O(n log n) complexity.
+        """
+        计算二维点集的凸包。
+        
+        输入：一个表示点对的可迭代序列，形式为 (x, y)。
+        输出：按照逆时针顺序列出凸包的顶点，从最左边（或y坐标最小）的顶点开始。
+        实现 Andrew 的单调链算法。复杂度为 O(n log n)。
         """
 
-        # Sort the points lexicographically (tuples are compared lexicographically).
-        # Remove duplicates to detect the case we have just one unique point.
-        # points = sorted(set(points))
+        # 按字典序排序点对，并去除重复项以处理仅有一个独特点的情况。
         points = sorted(points, key=lambda p: (p.x, p.y))
 
-        # Boring case: no points or a single point, possibly repeated multiple times.
+        # 边缘情况：无点或单个点（可能多次出现）。
         if len(points) <= 1:
             return points
 
-        # 2D cross product of OA and OB vectors, i.e. z-component of their 3D cross product.
-        # Returns a positive value, if OAB makes a counter-clockwise turn,
-        # negative for clockwise turn, and zero if the points are collinear.
+        # 计算 OA 和 OB 向量的叉积，即 OAB 在三维空间中的向量积的 z 分量。
+        # 返回正值表示逆时针转向，负值表示顺时针转向，零表示共线。
         def cross(o, a, b):
-            # return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
             return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x)
 
-        # Build lower hull
+        # 构建下凸包
         lower = []
         for p in points:
             while len(lower) >= 2 and cross(lower[-2], lower[-1], p) < 0:
                 lower.pop()
             lower.append(p)
 
-        # Build upper hull
+        # 构建上凸包
         upper = []
         for p in reversed(points):
             while len(upper) >= 2 and cross(upper[-2], upper[-1], p) < 0:
                 upper.pop()
             upper.append(p)
 
-        # Concatenation of the lower and upper hulls gives the convex hull.
-        # Last point of each list is omitted because it is repeated at the
-        # beginning of the other list.
-        # return lower[:-1] + upper[:-1]
+        # 下凸包和上凸包的组合构成完整的凸包。
+        # 每个列表的最后一项重复，因此需要去除。
         return list(set(lower[:-1] + upper[:-1]))

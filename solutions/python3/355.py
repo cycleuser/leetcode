@@ -1,49 +1,59 @@
+
+import collections
+
 class Twitter:
 
     def __init__(self):
         """
-        Initialize your data structure here.
+        初始化数据结构。
         """
         self.tweets = collections.defaultdict(list)
         self.following = collections.defaultdict(set)
         self.order = 0
-    def postTweet(self, userId, tweetId):
+
+    def postTweet(self, userId: int, tweetId: int) -> None:
         """
-        Compose a new tweet.
+        发布一条新推文。
         :type userId: int
         :type tweetId: int
         :rtype: void
         """
-        self.tweets[userId] += (self.order, tweetId), 
+        # 将推文添加到用户列表中，并更新顺序值
+        self.tweets[userId].append((self.order, tweetId))
         self.order -= 1
 
-    def getNewsFeed(self, userId):
+    def getNewsFeed(self, userId: int) -> list[int]:
         """
-        Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent.
+        获取用户的最新十条推文。
         :type userId: int
         :rtype: List[int]
         """
-        tw = sorted(tw for i in self.following[userId] | {userId} for tw in self.tweets[i])[:10]
-        return [news for i, news in tw]
-    
+        # 对用户关注的用户和自身发布的推文进行排序
+        tweets = sorted(
+            tweet for follower in self.following[userId] | {userId} 
+            for tweet in self.tweets[follower]
+        )[:10]
 
-    def follow(self, followerId, followeeId):
+        # 提取推文ID
+        return [tweet_id for _, tweet_id in tweets]
+
+    def follow(self, followerId: int, followeeId: int) -> None:
         """
-        Follower follows a followee. If the operation is invalid, it should be a no-op.
+        粉丝关注一个博主。如果操作无效，则应忽略。
         :type followerId: int
         :type followeeId: int
         :rtype: void
         """
         self.following[followerId].add(followeeId)
 
-    def unfollow(self, followerId, followeeId):
+    def unfollow(self, followerId: int, followeeId: int) -> None:
         """
-        Follower unfollows a followee. If the operation is invalid, it should be a no-op.
+        粉丝取消关注一个博主。如果操作无效，则应忽略。
         :type followerId: int
         :type followeeId: int
         :rtype: void
         """
-        self.following[followerId].discard(followeeId)      
+        self.following[followerId].discard(followeeId)
 
 
 # Your Twitter object will be instantiated and called as such:

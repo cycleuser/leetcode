@@ -1,44 +1,45 @@
+
 class MyQueue:
 
     def __init__(self):
         """
-        Initialize your data structure here.
+        初始化队列数据结构。
         """
         self.data = []
 
-    def push(self, x):
+    def push(self, x: int) -> None:
         """
-        Push element x to the back of queue.
-        :type x: int
-        :rtype: void
+        将元素x添加到队列末尾。
+        :param x: 待添加的整数
+        :return: 无返回值
         """
         self.data.append(x)
 
-    def pop(self):
+    def pop(self) -> int:
         """
-        Removes the element from in front of queue and returns that element.
-        :rtype: int
+        移除并返回队列前端的元素。
+        :return: 前端元素，类型为int
         """
         front = self.data[0]
         self.data = self.data[1:]
         return front
 
-    def peek(self):
+    def peek(self) -> int:
         """
-        Get the front element.
-        :rtype: int
+        返回队列前端的元素，不移除它。
+        :return: 前端元素，类型为int
         """
         return self.data[0]
 
-    def empty(self):
+    def empty(self) -> bool:
         """
-        Returns whether the queue is empty.
-        :rtype: bool
+        检查队列是否为空。
+        :return: 如果队列为空返回True，否则返回False
         """
         return not bool(self.data)
 
 
-# Your MyQueue object will be instantiated and called as such:
+# 对象将被实例化并调用如下：
 # obj = MyQueue()
 # obj.push(x)
 # param_2 = obj.pop()

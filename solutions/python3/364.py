@@ -1,3 +1,4 @@
+
 # """
 # This is the interface that allows for creating nested lists.
 # You should not implement it, or speculate about its implementation
@@ -42,10 +43,18 @@
 #        """
 
 class Solution:
+    # 计算最大深度
     def depthSumInverse(self, nestedList):
+        # 深度优先搜索，计算每个元素的最大深度
         def dfs(obj, d):
-            return obj.isInteger() and d or max((dfs(item, d + 1) for item in obj.getList()), default = 0)    
+            return obj.isInteger() and d or max((dfs(item, d + 1) for item in obj.getList()), default = 0)
+        
+        # 深度优先搜索，计算加权和
         def dfs2(obj, d):
             return obj.isInteger() and d * obj.getInteger() or sum(dfs2(item, d - 1) for item in obj.getList())
+        
+        # 计算最大深度
         mx = max((dfs(item, 1) for item in nestedList), default = 0)
+        
+        # 如果存在最大深度，则计算加权和，否则返回0
         return mx and sum(dfs2(item, mx) for item in nestedList) or 0

@@ -1,3 +1,4 @@
+
 # """
 # This is the interface that allows for creating nested lists.
 # You should not implement it, or speculate about its implementation
@@ -42,7 +43,11 @@
 #        """
 
 class Solution:
+    # 计算嵌套列表的深度总和
     def depthSum(self, nestedList):
-        def dfs(obj, d): return obj.getInteger() * d if obj.isInteger() else sum(dfs(new, d + 1) for new in obj.getList())
+        # 深度优先搜索辅助函数，计算当前元素在给定深度下的贡献值
+        def dfs(obj, d): 
+            return obj.getInteger() * d if obj.isInteger() else sum(dfs(new, d + 1) for new in obj.getList())
+        
+        # 计算整个嵌套列表的总和
         return sum(dfs(item, 1) for item in nestedList)
-            

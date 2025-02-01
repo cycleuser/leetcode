@@ -4,7 +4,22 @@ class Solution:
         :type grid: List[List[int]]
         :rtype: int
         """
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                grid[i][j] += min(grid[i][j - 1] if j > 0 else float("inf"), grid[i - 1][j] if i > 0 else float("inf")) if i!=0 or j != 0 else 0
-        return grid[-1][-1]
+        if not grid:
+            return 0
+            
+        m, n = len(grid), len(grid[0])
+        
+        # Handle first row
+        for j in range(1, n):
+            grid[0][j] += grid[0][j-1]
+            
+        # Handle first column
+        for i in range(1, m):
+            grid[i][0] += grid[i-1][0]
+            
+        # Calculate minimum path for rest of the grid
+        for i in range(1, m):
+            for j in range(1, n):
+                grid[i][j] += min(grid[i-1][j], grid[i][j-1])
+                
+        return grid[m-1][n-1]

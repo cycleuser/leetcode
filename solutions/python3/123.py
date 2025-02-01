@@ -1,10 +1,28 @@
+
 class Solution:
+    # 定义一个Solution类，包含买卖股票的最大利润方法
+    
     def maxProfit(self, prices):
+        # 初始化四个变量：s1和s2分别代表第一笔和第二笔交易的最高利润，
+        # b1和b2分别表示第一笔和第二笔交易的最低买入成本
         s1 = s2 = 0
         b1 = b2 = -float("inf")
+        
         for p in prices:
-            if -p > b1: b1 = -p
-            if b1 + p > s1: s1 = b1 + p
-            if s1 - p > b2: b2 = s1 - p
-            if b2 + p > s2: s2 = b2 + p
-        return s2
+            # 更新第一次买入的成本，如果当前价格的负值大于b1，则更新b1
+            if -p > b1: 
+                b1 = -p
+            
+            # 根据之前的最低买入成本计算第一笔交易利润，并更新s1
+            if b1 + p > s1:
+                s1 = b1 + p
+            
+            # 更新第二次买入的成本，如果在第一次卖出后的剩余金额减去当前价格大于b2，则更新b2
+            if s1 - p > b2: 
+                b2 = s1 - p
+            
+            # 根据之前的最低第二次买入成本计算第二笔交易利润，并更新s2
+            if b2 + p > s2:
+                s2 = b2 + p
+        
+        return s2  # 返回经过两次买卖后的最大利润

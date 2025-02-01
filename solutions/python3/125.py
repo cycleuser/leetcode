@@ -1,8 +1,16 @@
+
 class Solution:
     def isPalindrome(self, s):
         """
-        :type s: str
-        :rtype: bool
+        :type s: str  # 输入字符串s
+        :rtype: bool   # 返回值为布尔类型，表示是否为回文串
+        
+        判断给定的字符串s是否是回文串。
         """
         import string
-        return True if s=="" or [i.lower() for i in s if i in string.digits or i in string.ascii_letters]==[i.lower() for i in s if i in string.digits or i in string.ascii_letters][::-1] else False
+
+        # 过滤出字符串中的字母和数字，并转换成小写
+        filtered_chars = [char.lower() for char in s if char in string.ascii_letters or char in string.digits]
+        
+        # 检查过滤后的字符列表是否与其反转相同
+        return filtered_chars == filtered_chars[::-1]

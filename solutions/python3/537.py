@@ -1,13 +1,17 @@
+
 class Solution:
-    def complexNumberMultiply(self, a, b):
+    def complexNumberMultiply(self, a: str, b: str) -> str:
         """
-        :type a: str
-        :type b: str
-        :rtype: str
+        :type a: str  # 输入字符串a，例如 "2+3i"
+        :type b: str  # 输入字符串b，例如 "4+5i"
+        :rtype: str   # 返回结果字符串，例如 "13+14i"
+        
+        实现两个复数的乘法运算。
         """
-        re, im = 0, 0
-        re_a, im_a = list(map(int,a[:-1].split("+")))
-        re_b, im_b = list(map(int,b[:-1].split("+")))
-        re += re_a * re_b - im_a * im_b
-        im += re_a * im_b + re_b *im_a
-        return str(re)+"+"+str(im)+"i"
+        real_a, imag_a = map(int, a[:-1].split("+"))
+        real_b, imag_b = map(int, b[:-1].split("+"))
+        
+        real_part = real_a * real_b - imag_a * imag_b
+        imag_part = real_a * imag_b + real_b * imag_a
+        
+        return f"{real_part}+{imag_part}i"

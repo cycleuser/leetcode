@@ -1,42 +1,43 @@
+
 class MyStack:
 
     def __init__(self):
         """
-        Initialize your data structure here.
+        初始化栈数据结构。
         """
         self.data = []
 
-    def push(self, x):
+    def push(self, x: int) -> None:
         """
-        Push element x onto stack.
-        :type x: int
-        :rtype: void
+        将元素x压入栈顶。
+        :param x: 要添加的整数
+        :return: 无返回值，仅为操作方法
         """
         self.data.append(x)
 
-    def pop(self):
+    def pop(self) -> int:
         """
-        Removes the element on top of the stack and returns that element.
-        :rtype: int
+        移除并返回栈顶元素。
+        :return: 栈顶元素
         """
         return self.data.pop()
 
-    def top(self):
+    def top(self) -> int:
         """
-        Get the top element.
-        :rtype: int
+        返回栈顶元素，不移除。
+        :return: 栈顶元素
         """
         return self.data[-1]
 
-    def empty(self):
+    def empty(self) -> bool:
         """
-        Returns whether the stack is empty.
-        :rtype: bool
+        判断栈是否为空。
+        :return: True 表示栈空，False 表示非空
         """
         return not bool(self.data)
 
 
-# Your MyStack object will be instantiated and called as such:
+# 你的 MyStack 对象将被实例化并调用如下：
 # obj = MyStack()
 # obj.push(x)
 # param_2 = obj.pop()
